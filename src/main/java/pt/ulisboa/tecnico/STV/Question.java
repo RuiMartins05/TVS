@@ -29,7 +29,6 @@ public class Question {
         this.topics = new ArrayList<>();
         topics.add(topic);
         this.weight = weight;
-        
         validateComponents();
     }
     

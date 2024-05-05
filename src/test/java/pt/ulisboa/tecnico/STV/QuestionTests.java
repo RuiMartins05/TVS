@@ -8,13 +8,18 @@ import pt.ulisboa.tecnico.STV.exception.InvalidOperationException;
 import pt.ulisboa.tecnico.STV.util.Utils;
 
 import java.util.Arrays;
+import java.util.List;
 
 import static org.testng.Assert.assertEquals;
 import static org.testng.Assert.assertThrows;
 
 public class QuestionTests {
     // Mocked topics
-    private final String TOPIC_1 = "Harry Potter Trivia";
+    private final String GENERIC_TOPIC = "Harry Potter Trivia";
+    private final Integer GENERIC_WEIGHT_IN_POINT = 2;
+    private final Integer GENERIC_CORRECT_CHOICE_IN_POINT = 1;
+    private final String GENERIC_BODY_IN_POINT = "a";
+    private final List<String> GENERIC_CHOICES_IN_POINT = Arrays.asList("Scabbers", "Hedwig", "Crookshanks", "Fawkes");
 
 
     private Question genericQuestion = null;
@@ -38,7 +43,7 @@ public class QuestionTests {
                 "What is the name of Harry Potter's pet owl?",
                 Arrays.asList("Scabbers", "Hedwig", "Crookshanks", "Fawkes"),
                 1,
-                TOPIC_1,
+                GENERIC_TOPIC,
                 10
         );
     }
@@ -56,11 +61,11 @@ public class QuestionTests {
     public void testDuplicateTopicThrowsException() throws InvalidOperationException {
         // Act
         assertThrows(InvalidOperationException.class,
-                () -> genericQuestion.add(TOPIC_1)
+                () -> genericQuestion.add(GENERIC_TOPIC)
         );
 
         // Assert
-        assertEquals(genericQuestion.getTopics().stream().filter(topic -> topic.equals(TOPIC_1)).count(), 1);
+        assertEquals(genericQuestion.getTopics().stream().filter(topic -> topic.equals(GENERIC_TOPIC)).count(), 1);
     }
 
     /**
@@ -127,5 +132,109 @@ public class QuestionTests {
 
         // Assert
         assertEquals(genericQuestion.getTopics().size(), 1);
+    }
+
+    /**
+     * This test represents the use case number 1 of the domain matrix.
+     */
+    @Test
+    public void testValidQuestionCreation_1() throws InvalidOperationException {
+        // Arrange
+        List<String> GENERIC_CHOICES = Arrays.asList("Scabbers", "Hedwig", "Crookshanks");
+
+        // Act
+        Question question = new Question(
+                GENERIC_BODY_IN_POINT,
+                GENERIC_CHOICES,
+                GENERIC_CORRECT_CHOICE_IN_POINT,
+                GENERIC_TOPIC,
+                GENERIC_WEIGHT_IN_POINT
+        );
+
+        // Assert
+        assertEquals(question.getTopics().size(), 1);
+        assertEquals(question.getCorrectChoice(), GENERIC_CORRECT_CHOICE_IN_POINT);
+        assertEquals(question.getBody(), GENERIC_BODY_IN_POINT);
+        assertEquals(question.getWeight(), GENERIC_WEIGHT_IN_POINT);
+        assertEquals(question.getChoices(), GENERIC_CHOICES);
+        assertEquals(question.getTopics(), List.of(GENERIC_TOPIC));
+    }
+
+    /**
+     * This test represents the use case number 5 of the domain matrix.
+     */
+    @Test
+    public void testValidQuestionCreation_5() throws InvalidOperationException {
+        // Arrange
+        List<String> GENERIC_CHOICES_ON_POINT = Arrays.asList("Scabbers", "Hedwig");
+
+        // Act
+        Question question = new Question(
+                GENERIC_BODY_IN_POINT,
+                GENERIC_CHOICES_ON_POINT,
+                GENERIC_CORRECT_CHOICE_IN_POINT,
+                GENERIC_TOPIC,
+                GENERIC_WEIGHT_IN_POINT
+        );
+
+        // Assert
+        assertEquals(question.getTopics().size(), 1);
+        assertEquals(question.getCorrectChoice(), GENERIC_CORRECT_CHOICE_IN_POINT);
+        assertEquals(question.getBody(), GENERIC_BODY_IN_POINT);
+        assertEquals(question.getWeight(), GENERIC_WEIGHT_IN_POINT);
+        assertEquals(question.getChoices(), GENERIC_CHOICES_ON_POINT);
+        assertEquals(question.getTopics(), List.of(GENERIC_TOPIC));
+    }
+
+    /**
+     * This test represents the use case number 9 of the domain matrix.
+     */
+    @Test
+    public void testValidQuestionCreation_9() throws InvalidOperationException {
+        // Arrange
+        int GENERIC_CHOICE_ON_POINT = 0;
+
+        // Act
+        Question question = new Question(
+                GENERIC_BODY_IN_POINT,
+                GENERIC_CHOICES_IN_POINT,
+                GENERIC_CHOICE_ON_POINT,
+                GENERIC_TOPIC,
+                GENERIC_WEIGHT_IN_POINT
+        );
+
+        // Assert
+        assertEquals(question.getTopics().size(), 1);
+        assertEquals(question.getCorrectChoice(), GENERIC_CHOICE_ON_POINT);
+        assertEquals(question.getBody(), GENERIC_BODY_IN_POINT);
+        assertEquals(question.getWeight(), GENERIC_WEIGHT_IN_POINT);
+        assertEquals(question.getChoices(), GENERIC_CHOICES_IN_POINT);
+        assertEquals(question.getTopics(), List.of(GENERIC_TOPIC));
+    }
+
+    /**
+     * This test represents the use case number 17 of the domain matrix.
+     */
+    @Test
+    public void testValidQuestionCreation_17() throws InvalidOperationException {
+        // Arrange
+        int GENERIC_WEIGHT_ON_POINT = 1;
+
+        // Act
+        Question question = new Question(
+                GENERIC_BODY_IN_POINT,
+                GENERIC_CHOICES_IN_POINT,
+                GENERIC_CORRECT_CHOICE_IN_POINT,
+                GENERIC_TOPIC,
+                GENERIC_WEIGHT_ON_POINT
+        );
+
+        // Assert
+        assertEquals(question.getTopics().size(), 1);
+        assertEquals(question.getCorrectChoice(), GENERIC_CORRECT_CHOICE_IN_POINT);
+        assertEquals(question.getBody(), GENERIC_BODY_IN_POINT);
+        assertEquals(question.getWeight(), GENERIC_WEIGHT_ON_POINT);
+        assertEquals(question.getChoices(), GENERIC_CHOICES_IN_POINT);
+        assertEquals(question.getTopics(), List.of(GENERIC_TOPIC));
     }
 }
