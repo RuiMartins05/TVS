@@ -2,7 +2,6 @@ package pt.ulisboa.tecnico.STV;
 
 
 import org.testng.annotations.BeforeMethod;
-import org.testng.annotations.DataProvider;
 import org.testng.annotations.Test;
 import pt.ulisboa.tecnico.STV.exception.InvalidOperationException;
 import pt.ulisboa.tecnico.STV.util.Utils;
@@ -14,8 +13,15 @@ import static org.testng.Assert.assertEquals;
 import static org.testng.Assert.assertThrows;
 
 public class QuestionTests {
-    // Mocked topics
+    // Mocked data
     private final String GENERIC_TOPIC = "Harry Potter Trivia";
+    private final String GENERIC_BODY = "What is the name of Harry Potter's pet owl?";
+    private final int GENERIC__CORRECT_CHOICE = 1;
+    private final int GENERIC_WEIGHT = 10;
+    private final List<String> GENERIC_CHOICES = Arrays.asList("Scabbers", "Hedwig", "Crookshanks", "Fawkes");
+
+
+    // Mocked in points
     private final Integer GENERIC_WEIGHT_IN_POINT = 2;
     private final Integer GENERIC_CORRECT_CHOICE_IN_POINT = 1;
     private final String GENERIC_BODY_IN_POINT = "a";
@@ -24,27 +30,18 @@ public class QuestionTests {
 
     private Question genericQuestion = null;
 
-    @DataProvider
-    private Object[][] getQuestion() throws InvalidOperationException {
-        return new Object[][] {
-                { new Question(
-                        "What is the name of Harry Potter's pet owl?",
-                        Arrays.asList("Scabbers", "Hedwig", "Crookshanks", "Fawkes"),
-                        1,
-                        "Harry Potter Trivia",
-                        10
-                ) }
-        };
-    }
 
+    /**
+     * This method ensures that the data is properly re-set before initiating a test.
+     */
     @BeforeMethod
     public void initializeGenericQuestion() throws InvalidOperationException {
         genericQuestion = new Question(
-                "What is the name of Harry Potter's pet owl?",
-                Arrays.asList("Scabbers", "Hedwig", "Crookshanks", "Fawkes"),
-                1,
+                GENERIC_BODY,
+                GENERIC_CHOICES,
+                GENERIC__CORRECT_CHOICE,
                 GENERIC_TOPIC,
-                10
+                GENERIC_WEIGHT
         );
     }
 
@@ -53,6 +50,8 @@ public class QuestionTests {
      * <p>
      * The test checks that adding a duplicate topic results in an exception and that the amount of topics available
      * under the given question remains unchanged.
+     * The test also ensures that no other side effects were performed by validating the correctness of all the accessor
+     * methods.
      * </p>
      *
      @throws InvalidOperationException when attempting to add a duplicate topic.
@@ -66,12 +65,18 @@ public class QuestionTests {
 
         // Assert
         assertEquals(genericQuestion.getTopics().stream().filter(topic -> topic.equals(GENERIC_TOPIC)).count(), 1);
+        assertEquals(genericQuestion.getCorrectChoice(), GENERIC__CORRECT_CHOICE);
+        assertEquals(genericQuestion.getBody(), GENERIC_BODY);
+        assertEquals(genericQuestion.getWeight(), GENERIC_WEIGHT);
+        assertEquals(genericQuestion.getChoices(), GENERIC_CHOICES);
+        assertEquals(genericQuestion.getTopics(), List.of(GENERIC_TOPIC));
     }
 
     /**
      * Unit Test to verify that adding N+1 topics (N being the maximum amount of allowed topics) is not allowed
      * resulting in an [InvalidOperationException].
-     *
+     * The test also ensures that no other side effects were performed by validating the correctness of all the accessor
+     * methods.
      */
     @Test
     public void testMaximumAllowedTopicsThrowsException() throws InvalidOperationException {
@@ -96,13 +101,18 @@ public class QuestionTests {
 
         // Assert
         assertEquals(genericQuestion.getTopics().size(), 5);
+        assertEquals(genericQuestion.getCorrectChoice(), GENERIC__CORRECT_CHOICE);
+        assertEquals(genericQuestion.getBody(), GENERIC_BODY);
+        assertEquals(genericQuestion.getWeight(), GENERIC_WEIGHT);
+        assertEquals(genericQuestion.getChoices(), GENERIC_CHOICES);
     }
 
 
     /**
      * Unit Test to verify that attempting to add a topic that does not obey to the topic's minimum length domain constraint,
      * is rejected.
-     *
+     * The test also ensures that no other side effects were performed by validating the correctness of all the accessor
+     * methods.
      */
     @Test
     public void testInvalidLengthForAddedTopic() {
@@ -115,11 +125,16 @@ public class QuestionTests {
 
         // Assert
         assertEquals(genericQuestion.getTopics().size(), 1);
+        assertEquals(genericQuestion.getCorrectChoice(), GENERIC__CORRECT_CHOICE);
+        assertEquals(genericQuestion.getBody(), GENERIC_BODY);
+        assertEquals(genericQuestion.getWeight(), GENERIC_WEIGHT);
+        assertEquals(genericQuestion.getChoices(), GENERIC_CHOICES);
     }
 
     /**
      * Unit Test to verify that attempting to remove a topic that had not been previously added, is rejected.
-     *
+     * The test also ensures that no other side effects were performed by validating the correctness of all the accessor
+     * methods.
      */
     @Test
     public void testAttemptToRemoveUnExistentTopic() {
@@ -132,10 +147,16 @@ public class QuestionTests {
 
         // Assert
         assertEquals(genericQuestion.getTopics().size(), 1);
+        assertEquals(genericQuestion.getCorrectChoice(), GENERIC__CORRECT_CHOICE);
+        assertEquals(genericQuestion.getBody(), GENERIC_BODY);
+        assertEquals(genericQuestion.getWeight(), GENERIC_WEIGHT);
+        assertEquals(genericQuestion.getChoices(), GENERIC_CHOICES);
     }
 
     /**
      * This test represents the use case number 1 of the domain matrix.
+     * The test also ensures that no other side effects were performed by validating the correctness of all the accessor
+     * methods.
      */
     @Test
     public void testValidQuestionCreation_1() throws InvalidOperationException {
@@ -162,6 +183,8 @@ public class QuestionTests {
 
     /**
      * This test represents the use case number 5 of the domain matrix.
+     * The test also ensures that no other side effects were performed by validating the correctness of all the accessor
+     * methods.
      */
     @Test
     public void testValidQuestionCreation_5() throws InvalidOperationException {
@@ -188,6 +211,8 @@ public class QuestionTests {
 
     /**
      * This test represents the use case number 9 of the domain matrix.
+     * The test also ensures that no other side effects were performed by validating the correctness of all the accessor
+     * methods.
      */
     @Test
     public void testValidQuestionCreation_9() throws InvalidOperationException {
@@ -214,6 +239,8 @@ public class QuestionTests {
 
     /**
      * This test represents the use case number 17 of the domain matrix.
+     * The test also ensures that no other side effects were performed by validating the correctness of all the accessor
+     * methods.
      */
     @Test
     public void testValidQuestionCreation_17() throws InvalidOperationException {
