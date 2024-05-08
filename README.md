@@ -1,4 +1,4 @@
-## Report
+## Non-Executing Tests
 
 '/report' with all non executing tests.
 
