@@ -1,3 +1,7 @@
+## Report
+
+'/report' with all non executing tests.
+
 ## Executing Tests
 ```shell
 ./gradlew test
