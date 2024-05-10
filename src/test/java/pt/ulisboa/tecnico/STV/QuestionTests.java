@@ -46,6 +46,7 @@ public class QuestionTests {
     }
 
     /**
+     * This test represents the use case number 25 of the domain matrix.
      * Unit Test to verify that adding a duplicate topic will throw an [InvalidOperationException].
      * <p>
      * The test checks that adding a duplicate topic results in an exception and that the amount of topics available
@@ -73,6 +74,7 @@ public class QuestionTests {
     }
 
     /**
+     * This test represents the use case number 24 of the domain matrix.
      * Unit Test to verify that adding N+1 topics (N being the maximum amount of allowed topics) is not allowed
      * resulting in an [InvalidOperationException].
      * The test also ensures that no other side effects were performed by validating the correctness of all the accessor
@@ -109,6 +111,8 @@ public class QuestionTests {
 
 
     /**
+     * This test represents the use case number 14 of the domain matrix. Instead of using a fixed off point, we generated
+     * random invalid off points.
      * Unit Test to verify that attempting to add a topic that does not obey to the topic's minimum length domain constraint,
      * is rejected.
      * The test also ensures that no other side effects were performed by validating the correctness of all the accessor
@@ -132,6 +136,7 @@ public class QuestionTests {
     }
 
     /**
+     * This test consists of a suspect-based test case. Not represented in the domain matrix.
      * Unit Test to verify that attempting to remove a topic that had not been previously added, is rejected.
      * The test also ensures that no other side effects were performed by validating the correctness of all the accessor
      * methods.
